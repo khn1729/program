@@ -6,5 +6,29 @@
 <body>
     <p>Click the link below to open an Excel file:</p>
     <a href="최종 단어.xlsx" download>Open Excel File</a>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.3/xlsx.full.min.js"></script>
+<script>
+    // 엑셀 파일 불러오기
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'path-to-your-excel-file.xlsx', true);
+    xhr.responseType = 'arraybuffer';
+
+    xhr.onload = function (e) {
+        var data = new Uint8Array(xhr.response);
+        var workbook = XLSX.read(data, { type: 'array' });
+
+        // 엑셀 파일을 렌더링할 요소 선택
+        var excelContainer = document.getElementById('excel-container');
+
+        // 첫 번째 시트 선택
+        var firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+
+        // 엑셀 시트를 웹페이지에 렌더링
+        excelContainer.innerHTML = XLSX.utils.sheet_to_html(firstSheet);
+    };
+
+    xhr.send();
+</script>
+
 </body>
 </html>
